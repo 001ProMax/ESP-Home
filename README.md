@@ -16,14 +16,14 @@
    使用蓝牙协议与黑鲨散热器建立连接并控制设备。
 
 3. **控制接口**  
-   通过 `switch`、`fan` 等组件定义控制散热器的功能，例如开关、风速等。
+   通过 `light`、`fan` 等组件定义控制散热器的功能，例如灯效开关、风速等。
 
 4. **配置分离**  
-   将 `switch` 和 `fan` 的控制功能分离，方便用户根据需要自定义功能。
+   将 `light` 和 `fan` 的控制功能分离，方便用户根据需要自定义功能。
 
 ## 安装与配置
 
-1. 安装 ESPHome，参考 [ESPHome 官方文档](https://esphome.io/guides/getting_started.html)。
+1. 安装 ESPHome，参考 [ESPHome 官方文档](https://esphome.io)。
 2. 将 ESP32 开发板连接到电脑，使用 ESPHome 进行固件烧录。
 3. 配置 `yaml` 文件，参考本项目中的配置文件。
 4. 在 Home Assistant 中添加 ESP32 设备并进行控制。
