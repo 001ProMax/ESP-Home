@@ -1,0 +1,56 @@
+substitutions:
+    suuid: 0000a0a0-3c17-d293-8e48-14fe2e4da212
+    cuuid: 0000a001-0000-1000-8000-00805f9b34fb
+    device_mac: XX:XX:XX:XX:XX:XX
+
+esp32:
+    board: esp32-c6-devkitc-1
+    flash_size: 4MB
+    framework:
+        type: esp-idf
+        version: 5.3.1
+        platform_version: 6.9.0
+
+esphome:
+    name: "3pro"
+
+logger:
+
+wifi:
+    ssid: !secret wifi_ssid
+    password: !secret wifi_password
+
+api:
+
+ota:
+    - platform: esphome
+
+esp32_ble_tracker:
+
+ble_client:
+    id: black_shark_3pro
+    mac_address: ${device_mac}
+    auto_connect: true
+
+fan:
+    - platform: template
+      name: "黑鲨散热器"
+      id: black_shark_3pro_fan
+      speed_count: 3
+      on_turn_off:
+          - ble_client.ble_write:
+                id: black_shark_3pro
+                service_uuid: ${suuid}
+                characteristic_uuid: ${cuuid}
+                value: !lambda |-
+                    return std::vector<uint8_t>{0x85, 0x02, 0x00, 0x00, 0x00};
+      on_speed_set:
+          - ble_client.ble_write:
+                id: black_shark_3pro
+                service_uuid: ${suuid}
+                characteristic_uuid: ${cuuid}
+                value: !lambda |-
+                    return std::vector<uint8_t>{
+                        0x85, 0x02, 0x00, 0x00, 
+                        std::vector<uint8_t>{0x5B, 0xFA, 0x32}[x - 1]
+                    };
